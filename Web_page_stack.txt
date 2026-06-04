@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Page{
+    char webPage[50];
+    struct Page *next;
+};
+
+struct Page *head = NULL;
+
+void visitWeb(){
+    struct Page *newNode = malloc(sizeof(struct Page));
+
+    if(newNode == NULL){
+        printf("Spae not alloacted\n");
+        return;
+    }
+
+    printf("Enter current Webpage: ");
+    scanf(" %[^\n]", newNode->webPage);
+
+    newNode->next = head;
+    head = newNode;
+
+    printf("\nCurrently on %s\n", newNode->webPage);
+
+}
+
+void goBack(){
+    if(head == NULL){
+        printf("No browser history.\n");
+        return;
+    }
+    struct Page *temp = head;
+    head = head->next;
+    printf("Returned to %s\n", temp->webPage);
+    free(temp);
+}
+
+void currentPage(){
+    if(head == NULL){
+        printf("No browser history.\n");
+        return;
+    }
+    struct Page *temp = head;
+    printf("Leaving %s\n", temp->webPage);
+
+
+    if(head != NULL)
+        printf("Current page: %s\n", head->webPage);
+    else
+        printf("No pages left in history.\n");
+
+}
+
+void viewbrowsingHistory(){
+    struct Page *temp = head;
+
+        if(head == NULL){
+        printf("No browser history.\n");
+        return;
+    }
+
+    while(temp != NULL){
+        printf("\n%s\n", temp->webPage);
+        temp = temp->next;
+
+    }
+}
+
+int main(){
+    int choice;
+    while(1){
+        printf("\nWeb-System\n");
+        printf("1. visitWeb\n");
+        printf("2. goBack\n");
+        printf("3. currentPage\n");
+        printf("4. viewbrowsingHistory\n");
+        printf("5. Exit");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        switch(choice){
+            case 1:
+                visitWeb();
+                break;
+            case 2:
+                goBack();
+                break;
+            case 3:
+                currentPage();
+                break;
+            case 4:
+                viewbrowsingHistory();
+                break;
+            case 5:
+                exit(0);
+                break;
+            default:
+                printf("Invalid choice.\n");
+        }
+    }
+}
